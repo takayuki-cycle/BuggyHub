@@ -1,0 +1,54 @@
+<div class="main users-edit">
+  <div class="container">
+    <div class="form-heading"><i class="fas fa-edit" style="color: hotpink;"></i>&nbsp;アカウント編集</div>
+    <div class="form users-form">
+      <div class="form-body">
+        <% @user.errors.full_messages.each do |message| %>
+        <div class="form-error">
+          <%= message %>
+        </div>
+        <% end %>
+
+        <%= form_tag("/users/#{@user.id}/update", {multipart: true}) do %>
+        <i class="fas fa-user" style="color: hotpink;"></i>&nbsp;ユーザー名(10文字以下)
+        <input name="name" value="<%= @user.name %>">
+        <i class="fas fa-image" style="color: hotpink;"></i>&nbsp;画像(以下から選んでください。)
+        <div class="account-baby-group">
+          <input type="radio" name="image" value="default_user20190606.svg" id="0baby" checked>
+          <label for="0baby">
+            <img class="account-baby" src="/user_images/default_user20190606.svg" style="height: 70px; width: 70px;">
+          </label>
+          <% for baby_num in 1..16 do %>
+          <input type="radio" name="image" value="<%= baby_num %>baby.png" id="<%= baby_num %>baby">
+          <label for="<%= baby_num %>baby">
+            <img class="account-baby" src="/user_images/<%= baby_num %>baby.png" style="height: 70px; width: 70px;">
+          </label>
+          <% end %>
+        </div>
+        <i class="fas fa-envelope" style="color: hotpink; margin: 20px 0 0 0;"></i>&nbsp;メールアドレス
+        <input name="email" value="<%= @user.email %>">
+        <span class="show-modal-edit faa-parent animated-hover" style="font-size: 14px; margin-top: 0px;">
+          <i class="fas fa-edit faa-pulse"></i>&nbsp;編集
+        </span>
+
+        <!-- modal -->
+        <div class="confirm-modal-overlay"></div>
+        <div class="confirm-modal-delete">
+          <i class="close-modal fa fa-lg fa-times"></i>
+          <h2 style="padding: 20px 0 42px 0;">本当にアカウントを編集しますか？</h2>
+          <button type="submit" class="plus-post-edit"
+            style="background-color: #3ecdc6; height: 54px; padding: 0; width: 100%;">
+            <div class="modal-btn-accept-edit faa-parent animated-hover"
+              style="background-color: #3ecdc6; width: 170px; padding: 7px 7px !important;">
+              <i class="fas fa-edit faa-pulse"></i>&nbsp;編集する
+            </div>
+          </button>
+          <div class="modal-btn-reject faa-parent animated-hover" style="background-color: hotpink;">
+            <i class="fas fa-ban faa-burst"></i><b>&nbsp;キャンセル</b>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

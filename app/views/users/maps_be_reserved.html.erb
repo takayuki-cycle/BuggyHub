@@ -1,0 +1,148 @@
+<div class="main user-show">
+  <div class="container">
+    <div class="user">
+      <img class="user-img" src="<%= "/user_images/#{@user.image_name}" %>">
+      <h2 style="word-wrap: break-word;">
+        <i class="fas fa-user" style="color: hotpink;"></i>&nbsp;ユーザー名&nbsp;&nbsp;<%= @user.name %>
+      </h2>
+      <p style="word-wrap: break-word;">
+        <i class="fas fa-envelope" style="color: hotpink;"></i>&nbsp;メールアドレス&nbsp;&nbsp;<%= @user.email %>
+      </p>
+      <div class="user-review"><i class="fas fa-clipboard-list"
+          style="color: hotpink;"></i>&nbsp;レビュー件数&nbsp;&nbsp;<%= "#{@user.total_review}" %>件
+      </div>
+      <% case @user.mean_star when 1..5 %>
+      <span class="user-review">
+        <i class="fas fa-chart-bar" style="color: hotpink;"></i>&nbsp;評価
+        <span style="color: #4b4b4b; font-weight: 400;"><%= "#{BigDecimal(@user.mean_star).floor(2).to_f}/5" %>
+        </span>
+      </span>
+      <% else %>
+      <span class="user-review">
+        <i class="fas fa-chart-bar" style="color: hotpink;"></i>&nbsp;評価
+        <span style="color: #4b4b4b; font-weight: 400;">0/5
+        </span>
+      </span>
+      <% end %>
+      <span class="star-post-show">
+        <% case @user.mean_star when 1..1.2499 %> <img src="/star/star1.png">
+        <% when 1.25..1.7499 %> <img src="/star/star1.5.png">
+        <% when 1.75..2.2499 %> <img src="/star/star2.png">
+        <% when 2.25..2.7499 %> <img src="/star/star2.5.png">
+        <% when 2.75..3.2499 %> <img src="/star/star3.png">
+        <% when 3.25..3.7499 %> <img src="/star/star3.5.png">
+        <% when 3.75..4.2499 %> <img src="/star/star4.png">
+        <% when 4.25..4.7499 %> <img src="/star/star4.5.png">
+        <% when 4.75..5 %> <img src="/star/star5.png">
+        <% else %> <img src="/star/star0.png">
+        <% end %>
+      </span>
+      <div style="margin: 15px 0 0 0;">
+        <% if @user.id == @current_user.id %>
+        <%= link_to("/users/#{@user.id}/edit", style: "text-decoration: none;") do %>
+        <span class="post-show-edit faa-parent animated-hover"
+          style="color: white !important; font-size: 12px !important;">
+          <i class="fas fa-edit faa-pulse animated-hover"></i>&nbsp;アカウント編集
+        </span>
+        <% end %>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="show-modal-delete faa-parent animated-hover"
+          style="font-size: 14px; color: white; font-size: 12px;">
+          <i class=" fas fa-trash-alt faa-pulse"></i>&nbsp;アカウント削除
+        </span>
+        <% end %>
+      </div>
+    </div>
+
+    <span style="text-align:center;"><%= paginate @maps, window: 3 %></span>
+
+    <ul class="user-tabs">
+      <li><%= link_to("レビュー", "/users/#{@user.id}") %></li>
+      <li><%= link_to("いいね!", "/users/#{@user.id}/likes") %></li>
+      <li class="active"><%= link_to("エリア登録", "/users/#{@user.id}/maps-no-reserve") %></li>
+      <li><%= link_to("エリア予約", "/users/#{@user.id}/maps-reserved") %></li>
+    </ul>
+    <ul class="user-tabs">
+      <li style="cursor: pointer;">
+        <%= link_to("→ 予約が未定", "/users/#{@user.id}/maps-no-reserve") %>
+      </li>
+      <li class="active" style="cursor: pointer;">
+        <%= link_to("→ 予約を受領", "/users/#{@user.id}/maps-be-reserved") %>
+      </li>
+    </ul>
+
+    <% @maps.each do |map| %>
+    <% user_reserve = User.find_by(id: map.reserve_id) %>
+
+    <div class="posts-index-item">
+      <table>
+        <tr valign="top">
+          <td class="post-left-td">
+            <div class="post-left">
+              <%= link_to("/users/#{map.reserve_id}") do %>
+              <img src="<%= "/user_images/#{user_reserve.image_name}" %>">
+              <% end %>
+              <div class="post-menus-detail">
+                <%= link_to("詳細", "/maps/#{map.id}") %>
+              </div>
+            </div>
+          </td>
+          <td class="post-right-td">
+            <div class="post-right">
+              <div class="post-user-name">
+                <a href=<%= "/users/#{map.reserve_id}" %> style="font-weight: normal; color: #4b4b4b;">From:</a>
+                <%= link_to(user_reserve.name, "/users/#{map.reserve_id}") %>
+                <br>
+                <a href=<%= "/users/#{@user.id}" %> style="font-weight: normal; color: #4b4b4b;">To:</a>
+                <%= link_to(@user.name, "/users/#{@user.id}") %>
+              </div>
+              <div>
+                <% case map.storage when true %>
+                <i class="fas fa-map-marker-alt"></i>
+                <% when false %>
+                <i class="fas fa-map-marker"></i>
+                <% end %>
+                <span style="font-size: 14px;"><%= map.area %></span>
+              </div>
+              <div>
+                <i class="fas fa-baby-carriage"></i>
+                <% if map.storage == true %>
+                <span class="map-p" style="font-size: 14px;"><%= map.ride %>人乗りを預かります。</span>
+                <% elsif map.storage == false %>
+                <span class="map-p" style="font-size: 14px;"><%= map.ride %>人乗りを貸します。</span>
+                <% end %>
+              </div>
+              <div>
+                <i class="fas fa-hourglass-start"></i>
+                <span class="map-p" style="font-size: 14px;"><%= map.service_start.strftime("%Y/%m/%d %H:%M") %></span>
+              </div>
+              <div>
+                <i class="fas fa-hourglass-end"></i>
+                <span class="map-p" style="font-size: 14px;"><%= map.service_end.strftime("%Y/%m/%d %H:%M") %></span>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <% end %>
+    <span style="text-align:center;"><%= paginate @maps, window: 3 %></span>
+  </div>
+</div>
+<div class="overlay"></div> <!-- Double transmission prevention -->
+
+<!-- modal account delete -->
+<div class="confirm-modal-overlay"></div>
+<div class="confirm-modal-delete">
+  <i class="close-modal fa fa-lg fa-times"></i>
+  <h2 style="font-size: 20px; color: red;">レビューで付けた評価を除く、すべてのあなたの情報を削除しますか？</h2>
+  <%= link_to("/users/#{@user.id}/destroy", {method: "post"}) do %>
+  <div class="modal-btn-accept faa-parent animated-hover"
+    style="background-color: red; width: 120px; font-size: 16px; margin: 0 0 0 0;">
+    <i class="fas fa-trash-alt faa-pulse"></i>&nbsp;削除する
+  </div>
+  <% end %>
+  <div class="modal-btn-reject faa-parent animated-hover" style="background-color: hotpink;">
+    <i class="fas fa-ban faa-burst"></i><b>&nbsp;キャンセル</b>
+  </div>
+</div>

@@ -1,0 +1,264 @@
+/* posts/index ================================ */
+.posts-index-item {
+  padding: 20px 30px;
+  background-color: white;
+  overflow: hidden;
+  box-shadow: 0 2px 6px #c1ced7;
+}
+
+.post-left img {
+  width: 50px;
+  height: 50px;
+  border-radius: 40%;
+  box-shadow: 0 2px 6px #c1ced7;
+  object-fit: cover;
+}
+
+.post-user-name a {
+  font-weight: 600;
+}
+
+.post-user-name a:hover {
+  color: hotpink;
+}
+
+.post-left {
+  float: left;
+  width: 10%;
+}
+
+.post-right {
+  float: left;
+  width: 100%; // Need
+  padding-left: 20px;
+  text-align: left;
+}
+
+.post-menus-detail {
+  margin: 10px 0 0 10px;
+}
+
+.post-menus-detail a {
+  color: white;
+  background-color: hotpink;
+  padding: 5px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin: 0 0 0 -10px;
+}
+
+// And posts/show(top)
+.post-left-td {
+  width: 53px;
+  word-break: keep-all;
+}
+
+// And posts/show(bottom)
+.post-right-td {
+  overflow-wrap: break-word;
+}
+
+/* posts/show ================================ */
+.posts-show form {
+  display: inline;
+}
+
+.posts-show-item {
+  padding: 30px;
+  background-color: white;
+  box-shadow: 0 2px 6px #c1ced7;
+  overflow: hidden;
+}
+
+.post-user-name-left {
+  float: left;
+  width: 10%;
+}
+
+.post-user-name-right {
+  padding-left: 95px;
+}
+
+.post-user-name span {
+  font-size: 24px;
+}
+
+.post-user-name-left img {
+  width: 68px;
+  height: 68px;
+  border-radius: 40%;
+  box-shadow: 0 2px 6px #c1ced7;
+  object-fit: cover;
+}
+
+.posts-show-item .star-post-show img {
+  width: 146px;
+  height: 20px;
+  margin: 20px 0 0 0;
+}
+
+.posts-show-item .post-user-name a {
+  font-size: 24px;
+}
+
+.post-show-review {
+  font-size: 24px;
+  text-indent: -2em;
+}
+
+.posts-show-item .star-post-show img {
+  width: 146px;
+  height: 20px;
+  margin: 20px 0 0 0;
+}
+
+.posts-show-item p {
+  font-size: 24px;
+  margin: 15px 0;
+}
+
+.post-time {
+  color: #8899a6;
+}
+
+.like-btn {
+  color: #8899a6;
+}
+
+.like-btn-unlike {
+  color: #ff2581;
+}
+
+.posts-show-item .fa {
+  font-size: 16px;
+  margin-right: 3px;
+}
+
+.post-menus {
+  margin: 3px 0 0 0;
+  float: right;
+}
+
+.post-menus a,
+.post-menus input {
+  color: #3ecdc6;
+  text-decoration: underline;
+  font-size: 14px !important;
+  font-weight: normal;
+}
+
+.post-top-td {
+  overflow-wrap: break-word;
+}
+
+.post-show-edit {
+  font-size: 14px !important;
+  color: white;
+  background-color: #3ecdc6;
+  padding: 5px 10px;
+  margin: 0px 0px 20px 0px;
+  border-radius: 2px;
+  border: 0px;
+  cursor: pointer;
+}
+
+/* posts/new ================================ */
+.posts-new textarea {
+  font-size: 20px;
+  padding: 5px;
+  min-height: 140px;
+  border: 1px solid rgb(216, 218, 223);
+  resize: none;
+}
+
+.posts-new textarea::-webkit-input-placeholder {
+  font-size: 24px;
+  opacity: 0.5;
+}
+
+.posts-new textarea::placeholder {
+  font-size: 20px;
+}
+
+.review-title {
+  color: #4b4b4b;
+  font-size: 22px;
+}
+
+.review-list {
+  color: #4b4b4b;
+  font-size: 20px;
+}
+
+.star-rating-title {
+  color: #4b4b4b;
+  font-size: 22px;
+}
+
+.star-rating {
+  color: rgb(192, 192, 192);
+  font-size: 22px;
+}
+
+.star-spin {
+  transform: rotate(360deg);
+  transition: 0.4s;
+}
+
+input[type=radio] {
+  display: none;
+}
+
+input[type="radio"]:checked+label {
+  color: gold;
+}
+
+/* posts/edit ================================ */
+.plus-post-edit {
+  display: inline-block;
+  border-radius: 3px; // need
+}
+
+.modal-btn-accept-edit {
+  display: inline-block;
+  width: 185px;
+  font-size: 20px;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+  bottom: 0px;
+}
+
+
+/* Responsive Design ================================ */
+/* Smartphone layout */
+@media screen and (max-width: 670px) {
+
+  // posts/show
+  .posts-show-item .post-user-name a {
+    font-size: 18px;
+  }
+
+  .post-user-name span {
+    font-size: 18px;
+  }
+
+  .posts-show-item .star-post-show img {
+    position: relative;
+  }
+
+  .posts-show-item p {
+    font-size: 18px;
+  }
+
+  .post-user-name-left img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .post-user-name-right {
+    padding-left: 70px;
+  }
+}

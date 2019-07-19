@@ -1,0 +1,53 @@
+<div class="main posts-index">
+  <div class="container">
+    <h1 class="users-heading"><i class="fas fa-clipboard-list" style="color: hotpink;"></i>&nbsp;レビュー一覧</h1>
+    <span style="text-align:center;"><%= paginate @posts, window: 3 %></span>
+    <% @posts.each do |post| %>
+    <div class="posts-index-item">
+      <table>
+        <tr valign="top">
+          <td class="post-left-td">
+            <div class="post-left">
+              <%= link_to("/users/#{post.user.id}") do %>
+              <img src="<%= "/user_images/#{post.user.image_name}" %>">
+              <% end %>
+              <div class="post-menus-detail">
+                <%= link_to("詳細", "/posts/#{post.id}") %>
+              </div>
+            </div>
+          </td>
+          <td class="post-right-td">
+            <div class="post-right">
+              <div class="post-user-name">
+                <a href=<%= "/users/#{post.user.id}" %> style="font-weight: normal; color: #4b4b4b;">From:</a>
+                <%= link_to(post.user.name, "/users/#{post.user.id}") %>
+                <div>
+                  <% @users.each do |user| %>
+                  <% if user.id == post.review_id %>
+                  <a href=<%= "/users/#{post.review_id}" %> style="font-weight: normal; color: #4b4b4b;">To:</a>
+                  <%= link_to(user.name, "/users/#{post.review_id}") %>
+                  <% end %>
+                  <% end %>
+                </div>
+              </div>
+              <% case post.star when 1 %>
+              <div><%= link_to(image_tag("/star/star1.png", :size => "146x20"), "/posts/#{post.id}") %></div>
+              <% when 2 %>
+              <div><%= link_to(image_tag("/star/star2.png", :size => "146x20"), "/posts/#{post.id}") %></div>
+              <% when 3 %>
+              <div><%= link_to(image_tag("/star/star3.png", :size => "146x20"), "/posts/#{post.id}") %></div>
+              <% when 4 %>
+              <div><%= link_to(image_tag("/star/star4.png", :size => "146x20"), "/posts/#{post.id}") %></div>
+              <% when 5 %>
+              <div><%= link_to(image_tag("/star/star5.png", :size => "146x20"), "/posts/#{post.id}") %></div>
+              <% end %>
+              <%= link_to(post.content, "/posts/#{post.id}") %>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <% end %>
+    <span style="text-align:center;"><%= paginate @posts, window: 3 %></span>
+  </div>
+</div>

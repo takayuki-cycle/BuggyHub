@@ -1,0 +1,34 @@
+<div class="main users-index">
+  <div class="container">
+    <h1 class="users-heading"><i class="fas fa-users" style="color: hotpink;"></i>&nbsp;ユーザー一覧</h1>
+    <span style="text-align:center;"><%= paginate @users, window: 3 %></span>
+    <% @users.each do |user| %>
+    <div class="users-index-item">
+      <div class="user-left">
+        <%= link_to("/users/#{user.id}") do %>
+        <img src="<%= "/user_images/#{user.image_name}" %>">
+        <% end %>
+      </div>
+      <div class="user-right">
+        <b><%= link_to(user.name, "/users/#{user.id}") %></b>
+        <div class="star-post-show">
+          <%= link_to("/users/#{user.id}") do %>
+          <% case user.mean_star when 1..1.2499 %> <img src="/star/star1.png">
+          <% when 1.25..1.7499 %> <img src="/star/star1.5.png">
+          <% when 1.75..2.2499 %> <img src="/star/star2.png">
+          <% when 2.25..2.7499 %> <img src="/star/star2.5.png">
+          <% when 2.75..3.2499 %> <img src="/star/star3.png">
+          <% when 3.25..3.7499 %> <img src="/star/star3.5.png">
+          <% when 3.75..4.2499 %> <img src="/star/star4.png">
+          <% when 4.25..4.7499 %> <img src="/star/star4.5.png">
+          <% when 4.75..5 %> <img src="/star/star5.png">
+          <% else %> <img src="/star/star0.png">
+          <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+    <span style="text-align:center;"><%= paginate @users, window: 3 %></span>
+  </div>
+</div>

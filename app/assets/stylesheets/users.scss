@@ -1,0 +1,173 @@
+/* users/index ================================ */
+.users-heading {
+  font-weight: 300;
+  margin: 60px 0 20px;
+  font-size: 48px;
+  color: rgb(75, 75, 75);
+}
+
+.users-index-item {
+  padding: 20px 30px;
+  background-color: white;
+  overflow: hidden;
+  box-shadow: 0 2px 6px #c1ced7;
+  display: table;
+  width: 100%;
+}
+
+.user-left img {
+  width: 50px;
+  height: 50px;
+  border-radius: 40%;
+  box-shadow: 0 2px 6px #c1ced7;
+  object-fit: cover;
+}
+
+.user-name a {
+  font-weight: 600;
+}
+
+.user-name a:hover {
+  color: hotpink;
+}
+
+.user-left {
+  float: left;
+  width: 10%;
+}
+
+.user-right {
+  width: 90%;
+  padding-left: 25px;
+  text-align: left;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.user-right a:hover {
+  color: hotpink;
+}
+
+.post-user-name {
+  font-size: 14px;
+  color: #4b4b4b;
+}
+
+.star-post-show img {
+  width: 146px;
+  height: 20px;
+}
+
+/* users/show ================================ */
+.user-show {
+  text-align: center;
+}
+
+.user {
+  margin-bottom: 30px;
+}
+
+.user-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 40%;
+  box-shadow: 0 2px 6px #c1ced7;
+  margin: 20px 0 10px;
+  object-fit: cover;
+}
+
+.user h2 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.user p {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.user a {
+  color: #3ecdc6;
+  text-decoration: underline;
+  font-weight: 200;
+}
+
+.user span {
+  color: #afb6bf;
+  font-weight: 200;
+  padding: 3px 5px 3px 5px;
+}
+
+.user-tabs {
+  background-color: white;
+  overflow: hidden;
+  box-shadow: 0 2px 6px #c1ced7;
+}
+
+.user-tabs li {
+  float: left;
+}
+
+.user-tabs li.active {
+  background-color: hotpink;
+}
+
+.user-tabs li.active a {
+  color: white;
+  font-weight: bold;
+}
+
+.user-tabs a {
+  display: inline-block;
+  padding: 15px 15px;
+  color: #afb6bf;
+}
+
+.user-review {
+  font-size: 16px;
+  color: #4b4b4b !important;
+  padding: 0 0 0 0 !important;
+  vertical-align: top;
+}
+
+/* users/new, users/edit ================================ */
+.users-form input {
+  margin-bottom: 20px;
+}
+
+.user-plus {
+  display: block;
+  position: relative;
+}
+
+.account-baby {
+  margin: 0px;
+  padding: 5px;
+}
+
+.account-baby-group input[type="radio"]:checked+label img {
+  background: hotpink;
+}
+
+/* users/like ================================ */
+.user-like-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 40%;
+  box-shadow: 0 2px 6px #c1ced7;
+  margin: 20px 0 10px;
+  object-fit: cover;
+}
+
+/* Responsive Design ================================ */
+/* Smartphone layout */
+@media (max-width: 670px) {
+  .users-heading {
+    font-size: 30px;
+  }
+
+  .user h2 {
+    font-size: 20px !important;
+  }
+}

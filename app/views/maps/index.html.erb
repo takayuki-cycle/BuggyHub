@@ -1,0 +1,157 @@
+<!-- 地名入力用のinputを追加 -->
+<div id="address-box">
+</div>
+
+<div id="map">
+</div>
+
+<script>
+  /* mapを関数の外で定義(codeAddressでも使うため) geocoderを用意 */
+  let map
+  let geocoder
+  var image_storage = "/marker_storage20190524.svg";
+  var image_lend = "/marker_lend20190524.svg";
+  var image_myself = "/marker_myself20190704.svg";
+  var infoWindow = []; // Add balloon
+  var marker = [];
+  var closeInfoWindow = -1;
+  var formatDateStart = [];
+  var formatDateEnd = [];
+
+  function initMap() {
+    // geocoderを初期化
+    geocoder = new google.maps.Geocoder()
+
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { // Tokyo Station
+        lat: 35.681236,
+        lng: 139.767125
+      },
+      zoom: 12,
+      streetViewControl: false,
+      fullscreenControl: false,
+      mapTypeControl: false
+    });
+
+    // mapのデータベースの緯度と経度を取得
+    for (var i = 0; i < gon.js_maps.length; i++) {
+      if ((gon.js_maps[i]['storage'] == 1) && (gon.js_maps[i]['user_id'] != gon.js_user_session.id) &&
+        (gon.js_maps[i]['reserve'] != 1)) { // storage(except myself and reserve)
+        marker[i] = new google.maps.Marker({
+          map: map,
+          icon: image_storage,
+          position: new google.maps.LatLng(
+            gon.js_maps[i]['lat'],
+            gon.js_maps[i]['lng']
+          )
+        });
+      } else if ((gon.js_maps[i]['storage'] == 0) && (gon.js_maps[i]['user_id'] != gon.js_user_session.id) &&
+        (gon.js_maps[i]['reserve'] != 1)) { // lend(except myself and reserve)
+        marker[i] = new google.maps.Marker({
+          map: map,
+          icon: image_lend,
+          position: new google.maps.LatLng(
+            gon.js_maps[i]['lat'],
+            gon.js_maps[i]['lng']
+          )
+        });
+      } else if ((gon.js_maps[i]['user_id'] == gon.js_user_session.id) && (gon.js_maps[i]['reserve'] != 1)) {
+        // myself(except reserve)
+        marker[i] = new google.maps.Marker({
+          map: map,
+          icon: image_myself,
+          position: new google.maps.LatLng(
+            gon.js_maps[i]['lat'],
+            gon.js_maps[i]['lng']
+          )
+        });
+      }
+
+      formatDateStart[i] = formatDate(new Date(gon.js_maps[i]['service_start']),
+        'YYYY/MM/DD HH:II'); // サービス開始の日付を整形
+      formatDateEnd[i] = formatDate(new Date(gon.js_maps[i]['service_end']),
+        'YYYY/MM/DD HH:II'); // サービス終了の日付を整形
+
+      if ((gon.js_maps[i]['storage'] == 1) && (gon.js_maps[i]['user_id'] != gon.js_user_session.id)) { // Storage
+        infoWindow[i] = new google.maps.InfoWindow({ // 吹き出しの追加
+          content: '<div id="content">' +
+            '<p>&thinsp;<i class="fas fa-map-marker-alt"></i>' + gon.js_maps[i]['area'] + '</p>' +
+            '<strong><a href="/users/' + gon.js_maps[i]['user_id'] + '">' +
+            gon.js_maps[i]['name'] + '</strong><span class="san">さん</a></span>' +
+            '<p><a href="/users/' + gon.js_maps[i]['user_id'] + '">' +
+            '</a></p>' +
+            '<p><i class="fas fa-baby-carriage"></i><span>×</span>' + gon.js_maps[i]['ride'] +
+            '人乗り</p>' +
+            '<p><i class="fas fa-hourglass-start"></i>' + formatDateStart[i] +
+            '<span> ~</span><br></p>' +
+            '<p><i class="fas fa-hourglass-end"></i>' + formatDateEnd[i] + '</p>' +
+            '<a href="/maps/' + gon.js_maps[i]['id'] + '">' +
+            '<div class="storage faa-parent animated-hover">' +
+            '<i class="fas fa-calendar-check faa-pulse"></i>&nbsp;預ける</div></a>' +
+            '</div>' // 吹き出しに表示する内容
+        });
+      } else if ((gon.js_maps[i]['storage'] == 0) && (gon.js_maps[i]['user_id'] != gon.js_user_session.id)) { // Rent
+        infoWindow[i] = new google.maps.InfoWindow({ // 吹き出しの追加
+          content: '<div id="content">' +
+            '<p>&thinsp;<i class="fas fa-map-marker"></i>' + gon.js_maps[i]['area'] + '</p>' +
+            '<strong><a href="/users/' + gon.js_maps[i]['user_id'] + '">' +
+            gon.js_maps[i]['name'] + '</strong><span class="san">さん</a></span>' +
+            '<p><a href="/users/' + gon.js_maps[i]['user_id'] + '">' +
+            '</a></p>' +
+            '<p><i class="fas fa-baby-carriage"></i><span>×</span>' + gon.js_maps[i]['ride'] +
+            '人乗り</p>' +
+            '<p><i class="fas fa-hourglass-start"></i>' + formatDateStart[i] +
+            '<span> ~</span><br></p>' +
+            '<p><i class="fas fa-hourglass-end"></i>' + formatDateEnd[i] + '</p>' +
+            '<a href="/maps/' + gon.js_maps[i]['id'] + '">' +
+            '<div class="rent faa-parent animated-hover">' +
+            '<i class="far fa-calendar-check faa-pulse"></i>&nbsp;借りる</div></a>' +
+            '</div>' // 吹き出しに表示する内容
+        });
+      } else if (gon.js_maps[i]['user_id'] == gon.js_user_session.id) { // myself
+        infoWindow[i] = new google.maps.InfoWindow({ // 吹き出しの追加
+          content: '<div id="content">' +
+            '<p>&thinsp;<i class="fas fa-map-pin"></i>' + gon.js_maps[i]['area'] + '</p>' +
+            '<strong><a href="/users/' + gon.js_maps[i]['user_id'] + '">' +
+            gon.js_maps[i]['name'] + '</strong><span class="san">さん</a></span>' +
+            '<p><a href="/users/' + gon.js_maps[i]['user_id'] + '">' +
+            '</a></p>' +
+            '<p><i class="fas fa-baby-carriage"></i><span>×</span>' + gon.js_maps[i]['ride'] +
+            '人乗り</p>' +
+            '<p><i class="fas fa-hourglass-start"></i>' + formatDateStart[i] +
+            '<span> ~</span><br></p>' +
+            '<p><i class="fas fa-hourglass-end"></i>' + formatDateEnd[i] + '</p>' +
+            '<a href="/maps/' + gon.js_maps[i]['id'] + '">' +
+            '<div class="myself faa-parent animated-hover">' +
+            '<i class="fas fa-info-circle faa-pulse"></i>&nbsp;詳細</div></a>' +
+            '</div>' // 吹き出しに表示する内容
+        });
+      }
+      markerEvent(i); // マーカーにクリックイベントを追加
+    }
+
+    function formatDate(date, formatDate) { // 日付を整形
+      formatDate = formatDate.replace(/YYYY/, date.getFullYear());
+      formatDate = formatDate.replace(/MM/, ("0" + (date.getMonth() + 1)).slice(-2));
+      formatDate = formatDate.replace(/DD/, ("0" + date.getDate()).slice(-2));
+      formatDate = formatDate.replace(/HH/, ("0" + date.getHours()).slice(-2));
+      formatDate = formatDate.replace(/II/, ("0" + date.getMinutes()).slice(-2));
+      return formatDate;
+    }
+
+    function markerEvent(i) {
+      if (gon.js_maps[i]['reserve'] != 1) {
+        marker[i].addListener('click', function () { // マーカーをクリックしたとき
+          if (!(closeInfoWindow == -1)) {
+            infoWindow[closeInfoWindow].close(); // 複数のマーカーから1つだけ表示
+          }
+          infoWindow[i].open(map, marker[i]); // 吹き出しの表示
+          closeInfoWindow = i;
+        });
+      }
+    }
+  }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNvWZRQ0_QbhQhW1ugceuAiyVX4Zu28vk&callback=initMap"
+  asyncdefer></script>

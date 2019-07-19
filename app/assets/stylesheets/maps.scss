@@ -1,0 +1,291 @@
+// Place all the styles related to the maps controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+/* maps/index ================================ */
+#address-box {
+  text-align: center;
+  position: relative;
+  z-index: 3;
+  top: 80px;
+}
+
+#address-box #address {
+  border: 2px solid rgb(75, 75, 75);
+  border-radius: 0.67em;
+  padding: 1em;
+  background-color: white;
+  width: 95%;
+  font-size: 16px;
+}
+
+#map {
+  position: absolute;
+  top: 64px;
+  height: calc(100% - 64px);
+  box-sizing: border-box;
+  width: 100%;
+  z-index: 0;
+}
+
+#content {
+  font-size: 16px;
+  color: rgb(75, 75, 75);
+}
+
+#content strong a {
+  font-size: 23px;
+}
+
+#content strong a:hover {
+  color: hotpink;
+}
+
+#content .san {
+  font-size: 11px;
+}
+
+.storage {
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  background-color: #d64036;
+  padding: 5px 10px;
+  margin: 5px 0px 0px 0px;
+  border-radius: 2px;
+  border: 0px;
+  cursor: pointer;
+  float: right;
+}
+
+.rent {
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  background-color: #ff8a00;
+  padding: 5px 10px;
+  margin: 5px 0px 0px 0px;
+  border-radius: 2px;
+  border: 0px;
+  cursor: pointer;
+  float: right;
+}
+
+.myself {
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  background-color: hotpink;
+  padding: 5px 10px;
+  margin: 5px 0px 0px 0px;
+  border-radius: 2px;
+  border: 0px;
+  cursor: pointer;
+  float: right;
+}
+
+.fa-map-marker-alt {
+  color: #d64036;
+}
+
+.fa-map-marker {
+  color: #ff8a00;
+}
+
+.fa-map-pin {
+  color: hotpink;
+}
+
+.fa-baby-carriage {
+  color: pink;
+}
+
+.fa-hourglass-start {
+  color: #dcd3b2;
+}
+
+.fa-hourglass-end {
+  color: #dcd3b2;
+}
+
+.gm-ui-hover-effect {
+  width: 35px !important;
+  height: 40px !important;
+}
+
+.gm-style .gm-style-iw-c {
+  padding: 18px;
+}
+
+.gm-style .gm-style-iw-d {
+  padding: 0px 0px 5px 0px;
+}
+
+.gm-ui-hover-effect {
+  opacity: 1;
+}
+
+.star-img {
+  width: 146px;
+  height: 20px;
+}
+
+/* maps/show ================================ */
+
+.maps-show {
+  text-align: center;
+}
+
+.show-modal-1 {
+  font-weight: bold;
+  font-size: 25px;
+  color: white;
+  background-color: #d64036;
+  padding: 5px 10px;
+  margin: 0px 0px 20px 0px;
+  border-radius: 2px;
+  border: 0px;
+  cursor: pointer;
+  float: middle;
+}
+
+.show-modal-2 {
+  font-weight: bold;
+  font-size: 25px;
+  color: white;
+  background-color: #ff8a00;
+  padding: 5px 10px;
+  margin: 0px 0px 20px 0px;
+  border-radius: 2px;
+  border: 0px;
+  cursor: pointer;
+  float: middle;
+}
+
+.show-modal-delete,
+.show-modal-account-delete {
+  color: white;
+  background-color: red;
+  padding: 5px 10px;
+  margin: 0px 0px 20px 0px;
+  border-radius: 2px;
+  border: 0px;
+  cursor: pointer;
+  float: middle;
+}
+
+.show-modal-edit {
+  color: white;
+  background-color: #3ecdc6;
+  cursor: pointer;
+  font-weight: 300;
+  width: auto;
+  border-radius: 2px;
+  padding: 10px 15px;
+  margin-top: 8px;
+  margin-bottom: 0;
+  float: right;
+  font-size: 16px !important;
+  letter-spacing: 2px;
+}
+
+.map-p {
+  font-size: 20px;
+}
+
+.posts-index-item-maps-show {
+  padding: 20px 0;
+  background-color: white;
+  overflow: hidden;
+  border-top: 1px solid #c1ced7;
+  border-bottom: 1px solid #c1ced7;
+}
+
+.map-menus {
+  margin: 0 0 40px 0;
+}
+
+.map-show-edit {
+  font-size: 20px;
+  color: white;
+  background-color: #3ecdc6;
+  padding: 5px 0;
+  border-radius: 2px;
+  cursor: pointer;
+  float: left;
+  width: 45%;
+}
+
+/* maps/new ================================ */
+.error-time-map-new {
+  display: none;
+  color: red;
+}
+
+.service-plus-red {
+  background-color: red !important;
+}
+
+.service-plus-reject {
+  display: none;
+  color: white;
+  background-color: red;
+  font-weight: 300;
+  width: auto;
+  border-radius: 2px;
+  margin-top: 8px;
+  margin-bottom: 0;
+  font-size: 16px !important;
+  letter-spacing: 2px;
+  cursor: not-allowed;
+}
+
+.error-area-map-new {
+  display: none;
+  color: red;
+}
+
+/* maps/edit ================================ */
+.error-area-map-edit {
+  display: none;
+  color: red;
+}
+
+.error-time-map-edit {
+  display: none;
+  color: red;
+}
+
+.service-edit-reject {
+  display: none;
+  color: white;
+  background-color: red;
+  font-weight: 300;
+  width: auto;
+  border-radius: 2px;
+  padding: 10px 15px;
+  margin-top: 8px;
+  margin-bottom: 0;
+  float: right;
+  font-size: 16px !important;
+  letter-spacing: 2px;
+  cursor: not-allowed;
+}
+
+/* Responsive Design ================================ */
+/* Smartphone layout */
+@media screen and (max-width: 670px) {
+
+  // posts/show
+  .map-p {
+    font-size: 14px;
+  }
+
+  .map-p a u {
+    font-size: 14px;
+  }
+
+  .map-p a {
+    font-size: 14px !important;
+  }
+}

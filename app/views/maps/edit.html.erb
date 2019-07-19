@@ -1,0 +1,293 @@
+<div class="main maps-edit">
+  <div class="container">
+    <h1 class="form-heading"><i class="fas fa-edit" style="color: hotpink;"></i>&nbsp;エリア編集</h1>
+    <%= form_tag({:controller => 'maps', :action => 'update'},{:method => :post, :name => 'form_map_edit', :onsubmit => 'return lat_lng_cookie()'}) do %>
+    <div class="form">
+      <div class="form-body">
+        <% @map.errors.full_messages.each do |message| %>
+        <div class="form-error">
+          <%= message %>
+        </div>
+        <% end %>
+        <p><i class="fas fa-map-marked-alt" style="color: hotpink;"></i>&nbsp;大体のエリア(プライバシーの観点から番地以下は書かないでください。)</p>
+        <input name="area" value="" placeholder="例: 東京都千代田区丸の内1丁目" style="margin-bottom: 0;" onKeyUp="geocode(this)">
+        <!-- 上のコードにvalueの値を入れると、エラーが起きたときにgeocodeが動かないときがある。 -->
+        <p class="error-area-map-edit"><i class="fas fa-times"></i>&nbsp;エリアの読み取りに失敗しました。</p>
+        <p style="margin-top: 20px;"><i class="fas fa-baby-carriage"></i>&nbsp;ベビーカー</p>
+        <select name="ride" class="ride-list" style="font-size: 16px;">
+          <% for ride_num in 1..9 do %>
+          <% if @map.ride == ride_num %>
+          <option selected><%= ride_num %></option>
+          <% else %>
+          <option><%= ride_num %></option>
+          <% end %>
+          <% end %>
+        </select>
+        人乗りを
+        <select name="storage" class="storage-list" style="font-size: 16px;">
+          <% if @map.storage == true %>
+          <option value="1" selected>預かります。</option> <!-- true -->
+          <option value="0">貸します。</option> <!-- false -->
+          <% elsif @map.storage == false %>
+          <option value="1">預かります。</option> <!-- true -->
+          <option value="0" selected>貸します。</option> <!-- false -->
+          <% else %>
+          <option value="1" selected>預かります。</option> <!-- true -->
+          <option value="0">貸します。</option> <!-- false -->
+          <% end %>
+        </select>
+        <!-- 開始時刻 start -->
+        <p style="margin: 20px 0 0 0;"><i class="fas fa-hourglass-start"></i>&nbsp;開始時刻</p>
+        <select name="service_start_year" class="service-start-year-list" style="font-size: 16px;"
+          onchange="selectErrorTime()">
+          <% for service_start_year in Time.now.year..Time.now.year + 30 do %>
+          <% if @map.service_start.year == service_start_year %>
+          <option selected><%= service_start_year %></option>
+          <% else %>
+          <option><%= service_start_year %></option>
+          <% end %>
+          <% end %>
+        </select>年
+        <select name="service_start_month" class="service-start-month-list" style="font-size: 16px;"
+          onchange="selectErrorTime()">
+          <% for service_start_month in 1..12 do %>
+          <% if @map.service_start.month == service_start_month %>
+          <option selected><%= service_start_month %></option>
+          <% else %>
+          <option><%= service_start_month %></option>
+          <% end %>
+          <% end %>
+        </select>月
+        <select name="service_start_day" class="service-start-day-list" style="font-size: 16px;"
+          onchange="selectErrorTime()">
+          <% for service_start_day in 1..31 do %>
+          <% if @map.service_start.day == service_start_day %>
+          <option selected><%= service_start_day %></option>
+          <% else %>
+          <option><%= service_start_day %></option>
+          <% end %>
+          <% end %>
+        </select>日
+        <select name="service_start_hour" class="service-start-hour-list" style="font-size: 16px;"
+          onchange="selectErrorTime()">
+          <% for service_start_hour in 0..23 do %>
+          <% if @map.service_start.hour == service_start_hour %>
+          <option selected><%= service_start_hour %></option>
+          <% else %>
+          <option><%= service_start_hour %></option>
+          <% end %>
+          <% end %>
+        </select>時
+        <select name="service_start_min" class="service-start-min-list" style="font-size: 16px;"
+          onchange="selectErrorTime()">
+          <% for service_start_min in 0..59 do %>
+          <% if @map.service_start.min == service_start_min %>
+          <option selected><%= service_start_min %></option>
+          <% else %>
+          <option><%= service_start_min %></option>
+          <% end %>
+          <% end %>
+        </select>分
+        <!-- 開始時刻 end -->
+        <!-- 終了時刻 start -->
+        <p style="margin: 0 0 0 0;"><i class="fas fa-hourglass-end"></i></%=>&nbsp;終了時刻</p>
+        <select name="service_end_year" class="service-end-year-list" style="font-size: 16px;"
+          onchange="selectErrorTime()">
+          <% for service_end_year in Time.now.year..Time.now.year + 30 do %>
+          <% if @map.service_end.year == service_end_year %>
+          <option selected><%= service_end_year %></option>
+          <% else %>
+          <option><%= service_end_year %></option>
+          <% end %>
+          <% end %>
+        </select>年
+        <select name="service_end_month" class="service-end-month-list" style="font-size: 16px;"
+          onchange="selectErrorTime()">
+          <% for service_end_month in 1..12 do %>
+          <% if @map.service_end.month == service_end_month %>
+          <option selected><%= service_end_month %></option>
+          <% else %>
+          <option><%= service_end_month %></option>
+          <% end %>
+          <% end %>
+        </select>月
+        <select name="service_end_day" class="service-end-day-list" style="font-size:   16px;"
+          onchange="selectErrorTime()">
+          <% for service_end_day in 1..31 do %>
+          <% if @map.service_end.day == service_end_day %>
+          <option selected><%= service_end_day %></option>
+          <% else %>
+          <option><%= service_end_day %></option>
+          <% end %>
+          <% end %>
+        </select>日
+        <select name="service_end_hour" class="service-end-hour-list" style="font-size: 16px;"
+          onchange="selectErrorTime()">
+          <% for service_end_hour in 0..23 do %>
+          <% if @map.service_end.hour == service_end_hour %>
+          <option selected><%= service_end_hour %></option>
+          <% else %>
+          <option><%= service_end_hour %></option>
+          <% end %>
+          <% end %>
+        </select>時
+        <select name="service_end_min" class="service-end-min-list" style="font-size:   16px;"
+          onchange="selectErrorTime()">
+          <% for service_end_min in 0..59 do %>
+          <% if @map.service_end.min == service_end_min %>
+          <option selected><%= service_end_min %></option>
+          <% else %>
+          <option><%= service_end_min %></option>
+          <% end %>
+          <% end %>
+        </select>分
+        <!-- 終了時刻 end -->
+        <p class="error-time-map-edit"><i class="fas fa-times"></i>&nbsp;開始時刻は終了時刻より前でなければなりません。</p>
+        <p style="margin: 20px 0 0 0;"><i class="fas fa-comment-dots" style="color: hotpink;"></i>&nbsp;備考(任意)</p>
+        <textarea name="remark" placeholder="例: 雨が降っているときはベビーカーを屋内に入れることができます。"
+          style="padding: 5px; border: 1px solid #d8dadf;"><%= @map.remark %></textarea>
+        <span name="geocodeSubmit" class="service-plus">
+          <span class="service-plus-accept show-modal-edit">
+            <span class=" faa-parent animated-hover">
+              <i class="fas fa-edit faa-pulse"></i>&nbsp;編集
+            </span>
+          </span>
+          <span class="service-edit-reject">
+            <span class="faa-parent animated-hover">
+              <i class="fas fa-calendar-times faa-pulse"></i>&nbsp;不可
+            </span>
+          </span>
+        </span>
+        <input type="hidden" name="name" value="<%= @current_user.name %>">
+
+        <!-- modal -->
+        <div class="confirm-modal-overlay"></div>
+        <div class="confirm-modal-delete">
+          <i class="close-modal fa fa-lg fa-times"></i>
+          <h2 style="padding: 20px 0 40px 0;">本当にエリアを編集しますか？</h2>
+          <button type="submit" name="geocodeSubmit" class="plus-post-edit service-plus"
+            style="background-color: #3ecdc6;">
+            <div class="modal-btn-accept-edit faa-parent animated-hover"
+              style="background-color: #3ecdc6; width: 170px; height: 34px; padding: 0; margin-top: 0;">
+              <i class="fas fa-edit faa-pulse"></i>&nbsp;<b>編集する</b>
+            </div>
+          </button>
+          <div class="modal-btn-reject faa-parent animated-hover" style="background-color: hotpink;">
+            <i class="fas fa-ban faa-burst"></i><b>&nbsp;キャンセル</b>
+          </div>
+        </div>
+        <% end %>
+        </span>
+      </div>
+
+      <script>
+        function selectErrorTime() {
+          var selectStartYearUser = document.form_map_edit.service_start_year.value;
+          var selectStartMonthUser = document.form_map_edit.service_start_month.value;
+          var selectStartDayUser = document.form_map_edit.service_start_day.value;
+          var selectStartHourUser = document.form_map_edit.service_start_hour.value;
+          var selectStartMinUser = document.form_map_edit.service_start_min.value;
+
+          var selectEndYearUser = document.form_map_edit.service_end_year.value;
+          var selectEndMonthUser = document.form_map_edit.service_end_month.value;
+          var selectEndDayUser = document.form_map_edit.service_end_day.value;
+          var selectEndHourUser = document.form_map_edit.service_end_hour.value;
+          var selectEndMinUser = document.form_map_edit.service_end_min.value;
+
+          var errorYear = selectEndYearUser - selectStartYearUser;
+          var errorMonth = selectEndMonthUser - selectStartMonthUser;
+          var errorDay = selectEndDayUser - selectStartDayUser;
+          var errorHour = selectEndHourUser - selectStartHourUser;
+          var errorMin = selectEndMinUser - selectStartMinUser;
+
+          if (errorYear < 0) {
+            errorTime();
+          } else if (errorYear > 0) {
+            successTime();
+          } else if (errorYear == 0) { // check
+            if (errorMonth < 0) {
+              errorTime();
+            } else if (errorMonth > 0) {
+              successTime();
+            } else if (errorMonth == 0) { // check
+              if (errorDay < 0) {
+                errorTime();
+              } else if (errorDay > 0) {
+                successTime();
+              } else if (errorDay == 0) { // check
+                if (errorHour < 0) {
+                  errorTime();
+                } else if (errorHour > 0) {
+                  successTime();
+                } else if (errorHour == 0) { // check
+                  if (errorMin < 0) {
+                    errorTime();
+                  } else if (errorMin > 0) {
+                    successTime();
+                  } else if (errorMin == 0) { // start time == end time
+                    successTime();
+                  }
+                }
+              }
+            }
+          }
+
+          function errorTime() {
+            $(".error-time-map-edit").show();
+            $(".service-edit-reject").show();
+            $(".service-plus-accept").hide();
+            $(".service-plus").addClass("service-plus-red");
+            $(".service-plus").prop('disabled', true);
+          }
+
+          function successTime() {
+            $(".error-time-map-edit").hide();
+            $(".service-edit-reject").hide();
+            $(".service-plus-accept").show();
+            $(".service-plus").removeClass("service-plus-red");
+            $(".service-plus").prop('disabled', false);
+          }
+        }
+
+        // map geocoder //////////////////////////////////////
+        var lat_edit_map;
+        var lng_edit_map;
+
+        function initMap() {} // Need
+
+        function lat_lng_cookie() {
+          document.cookie = 'lat_edit_map=' + lat_edit_map;
+          document.cookie = 'lng_edit_map=' + lng_edit_map;
+        }
+
+        function geocode($this) {
+          if ($this.value.length >= 2) {
+            let geocoder
+            // geocoderを初期化
+            geocoder = new google.maps.Geocoder()
+            geocoder.geocode({
+              'address': $this.value
+            }, function (results, status) {
+              if (status == 'OK') {
+                $(".error-area-map-edit").hide();
+                position: new google.maps.LatLng(
+                  results[0].geometry.location.lat(),
+                  results[0].geometry.location.lng()
+                )
+                lat_edit_map = results[0].geometry.location.lat();
+                lng_edit_map = results[0].geometry.location.lng();
+                if ((lat_edit_map == 0) && (lng_edit_map == 0)) {
+                  $(".error-area-map-edit").show();
+                }
+              } else {
+                $(".error-area-map-edit").show();
+                lat_edit_map = '';
+                lng_edit_map = '';
+              }
+            });
+          }
+        }
+      </script>
+
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNvWZRQ0_QbhQhW1ugceuAiyVX4Zu28vk&callback=initMap"
+        asyncdefer></script>

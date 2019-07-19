@@ -1,0 +1,41 @@
+<div class="main users-new">
+  <div class="container">
+    <div class="form-heading"><i class="fas fa-user-plus" style="color: hotpink;"></i>&nbsp;新規登録</div>
+    <div class="form users-form">
+      <div class="form-body">
+        <% @user.errors.full_messages.each do |message| %>
+        <div class="form-error">
+          <%= message %>
+        </div>
+        <% end %>
+
+        <%= form_tag("/users/create") do %>
+        <i class="fas fa-user" style="color: hotpink;"></i>&nbsp;ユーザー名(10文字以下)
+        <input name="name" value="<%= @user.name %>">
+        <i class="fas fa-image" style="color: hotpink;"></i>&nbsp;画像(以下から選んでください。)
+        <div class="account-baby-group">
+          <input type="radio" name="image" value="default_user20190606.svg" id="0baby" checked>
+          <label for="0baby">
+            <img class="account-baby" src="/user_images/default_user20190606.svg" style="height: 70px; width: 70px;">
+          </label>
+          <% for baby_num in 1..16 do %>
+          <input type="radio" name="image" value="<%= baby_num %>baby.png" id="<%= baby_num %>baby">
+          <label for="<%= baby_num %>baby">
+            <img class="account-baby" src="/user_images/<%= baby_num %>baby.png" style="height: 70px; width: 70px;">
+          </label>
+          <% end %>
+        </div>
+        <i class="fas fa-envelope" style="color: hotpink; margin: 20px 0 0 0;"></i>&nbsp;メールアドレス
+        <input name="email" value="<%= @user.email %>">
+        <i class="fas fa-key" style="color: hotpink;"></i>&nbsp;パスワード(6文字以上)
+        <input type="password" name="password" minlength="6" value="<%= @user.password %>">
+        <button type="submit" class="user-plus">
+          <span class="faa-parent animated-hover">
+            <i class=" fas fa-user-plus faa-pulse"></i> 新規登録
+          </span>
+        </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

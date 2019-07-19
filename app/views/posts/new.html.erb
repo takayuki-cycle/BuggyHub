@@ -1,0 +1,109 @@
+<div class="main posts-new">
+  <div class="container">
+    <h1 class="form-heading"><i class="fas fa-edit" style="color: hotpink;"></i>&nbsp;新規レビュー</h1>
+    <%= form_tag("/posts/create") do %>
+    <div class="form">
+      <div class="form-body">
+        <% @post.errors.full_messages.each do |message| %>
+        <div class="form-error">
+          <%= message %>
+        </div>
+        <% end %>
+        <div class="review-title">レビュー先&nbsp;
+          <select name="review_id" class="review-list">
+            <option disabled selected value style="color: #D0D0D0;">▼選択してください。</option>
+            <% @users.each do |user| %>
+            <% if user.id == -999 %>
+            <option value="<%= user.id %>" disabled style="color: #D0D0D0;"><%= user.name %></option>
+            <% elsif user.id == @current_user.id %>
+            <option value="<%= user.id %>" disabled style="color: #D0D0D0;"><%= user.name %></option>
+            <% elsif (user.id != @current_user.id) && (user.id != @post.review_id) %>
+            <option value="<%= user.id %>"><%= user.name %></option>
+            <% elsif user.id == @post.review_id %>
+            <option value="<%= user.id %>" selected><%= user.name %></option>
+            <% end %>
+            <% end %>
+          </select>
+        </div>
+        <span class="star-rating-title">評価&nbsp;</span>
+        <span class="star-rating">
+          <% if @post.star == nil %>
+          <input type="radio" name="star" value="1" id="star1">
+          <label for="star1" class="fas fa-star eva1"></label>
+          <input type="radio" name="star" value="2" id="star2">
+          <label for="star2" class="fas fa-star eva2"></label>
+          <input type="radio" name="star" value="3" id="star3">
+          <label for="star3" class="fas fa-star eva3"></label>
+          <input type="radio" name="star" value="4" id="star4">
+          <label for="star4" class="fas fa-star eva4"></label>
+          <input type="radio" name="star" value="5" id="star5">
+          <label for="star5" class="fas fa-star eva5"></label>
+          <% elsif @post.star == 1 %>
+          <input type="radio" name="star" value="1" id="star1" checked>
+          <label for="star1" class="fas fa-star eva1"></label>
+          <input type="radio" name="star" value="2" id="star2">
+          <label for="star2" class="fas fa-star eva2" style="color: rgb(192, 192, 192);"></label>
+          <input type="radio" name="star" value="3" id="star3">
+          <label for="star3" class="fas fa-star eva3" style="color: rgb(192, 192, 192);"></label>
+          <input type="radio" name="star" value="4" id="star4">
+          <label for="star4" class="fas fa-star eva4" style="color: rgb(192, 192, 192);"></label>
+          <input type="radio" name="star" value="5" id="star5">
+          <label for="star5" class="fas fa-star eva5" style="color: rgb(192, 192, 192);"></label>
+          <% elsif @post.star == 2 %>
+          <input type="radio" name="star" value="1" id="star1">
+          <label for="star1" class="fas fa-star eva1" style="color: gold;"></label>
+          <input type="radio" name="star" value="2" id="star2" checked>
+          <label for="star2" class="fas fa-star eva2"></label>
+          <input type="radio" name="star" value="3" id="star3">
+          <label for="star3" class="fas fa-star eva3" style="color: rgb(192, 192, 192);"></label>
+          <input type="radio" name="star" value="4" id="star4">
+          <label for="star4" class="fas fa-star eva4" style="color: rgb(192, 192, 192);"></label>
+          <input type="radio" name="star" value="5" id="star5">
+          <label for="star5" class="fas fa-star eva5" style="color: rgb(192, 192, 192);"></label>
+          <% elsif @post.star == 3 %>
+          <input type="radio" name="star" value="1" id="star1">
+          <label for="star1" class="fas fa-star eva1" style="color: gold;"></label>
+          <input type="radio" name="star" value="2" id="star2">
+          <label for="star2" class="fas fa-star eva2" style="color: gold;"></label>
+          <input type="radio" name="star" value="3" id="star3" checked>
+          <label for="star3" class="fas fa-star eva3"></label>
+          <input type="radio" name="star" value="4" id="star4">
+          <label for="star4" class="fas fa-star eva4" style="color: rgb(192, 192, 192);"></label>
+          <input type="radio" name="star" value="5" id="star5">
+          <label for="star5" class="fas fa-star eva5" style="color: rgb(192, 192, 192);"></label>
+          <% elsif @post.star == 4 %>
+          <input type="radio" name="star" value="1" id="star1">
+          <label for="star1" class="fas fa-star eva1" style="color: gold;"></label>
+          <input type="radio" name="star" value="2" id="star2">
+          <label for="star2" class="fas fa-star eva2" style="color: gold;"></label>
+          <input type="radio" name="star" value="3" id="star3">
+          <label for="star3" class="fas fa-star eva3" style="color: gold;"></label>
+          <input type="radio" name="star" value="4" id="star4" checked>
+          <label for="star4" class="fas fa-star eva4"></label>
+          <input type="radio" name="star" value="5" id="star5">
+          <label for="star5" class="fas fa-star eva5" style="color: rgb(192, 192, 192);"></label>
+          <% elsif @post.star == 5 %>
+          <input type="radio" name="star" value="1" id="star1">
+          <label for="star1" class="fas fa-star eva1" style="color: gold;"></label>
+          <input type="radio" name="star" value="2" id="star2">
+          <label for="star2" class="fas fa-star eva2" style="color: gold;"></label>
+          <input type="radio" name="star" value="3" id="star3">
+          <label for="star3" class="fas fa-star eva3" style="color: gold;"></label>
+          <input type="radio" name="star" value="4" id="star4">
+          <label for="star4" class="fas fa-star eva4" style="color: gold;"></label>
+          <input type="radio" name="star" value="5" id="star5" checked>
+          <label for="star5" class="fas fa-star eva5"></label>
+          <% end %>
+        </span>
+        <textarea name="content"
+          placeholder="例: 丁寧な対応でとても良かったです。育児について少し話し合えたことも良かったです。"><%= @post.content %></textarea>
+        <button type="submit" class="plus">
+          <span class="faa-parent animated-hover">
+            <i class="fas fa-edit faa-pulse"></i>&nbsp;投稿
+          </span>
+        </button>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>

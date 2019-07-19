@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>BuggyHub</title>
+  <%= csrf_meta_tags %>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= include_gon %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= favicon_link_tag('/faviconBaby20190711.ico') %>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.0.10/font-awesome-animation.css"
+    type="text/css" media="all" />
+</head>
+
+<body>
+  <header>
+    <div class="header-logo">
+      <% if @current_user %>
+      <b><%= link_to("BuggyHub", "/users/index") %></b>
+      <% else %>
+      <b><%= link_to("BuggyHub", "/") %></b>
+      <% end %>
+    </div>
+    <span class="menu-icon-bars"><i class="fa fa-bars"></i></span>
+    <span class="menu-icon-times"><i class="fa fa-times"></i></span>
+    <span class="header-menus-overlay"></span>
+    <ul class="header-menus header-menus-drop-down">
+      <% if @current_user %>
+      <li>
+        <%= link_to("/users/#{@current_user.id}/maps-be-reserved") do %>
+        <p class="oval"><%= @maps_header.count %></p>
+        <% end %>
+        <%= link_to("/users/#{@current_user.id}") do %>
+        <img class="user-img" src="<%= "/user_images/#{@current_user.image_name}" %>">
+        <% end %>
+      </li>
+      <li>
+        <%= link_to("/maps/index") do %>
+        <p class="faa-parent animated-hover">
+          <i class="fas fa-map-marked-alt faa-pulse animated-hover"></i> <br>
+          <span><b>エリア検索</b></span>
+        </p>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to("/maps/new") do %>
+        <p class="faa-parent animated-hover">
+          <i class="fas fa-calendar-plus faa-pulse animated-hover"></i> <br>
+          <span><b>エリア登録</b></span>
+        </p>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to("/posts/index") do %>
+        <p class="faa-parent animated-hover">
+          <i class="fas fa-clipboard-list faa-pulse animated-hover"></i> <br>
+          <span><b>レビューI</b></span>
+        </p>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to("/posts/new") do %>
+        <p class="faa-parent animated-hover">
+          <i class="fas fa-edit faa-pulse animated-hover"></i> <br>
+          <span><b>レビューN</b></span>
+        </p>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to("/logout", {method: :post}) do %>
+        <p class="faa-parent animated-hover">
+          <i class="fas fa-sign-out-alt faa-pulse animated-hover"></i> <br>
+          <span><b>ログアウト</b></span>
+        </p>
+        <% end %>
+      </li>
+      <% else %>
+      <li>
+        <%= link_to("/about") do %>
+        <p class="faa-parent animated-hover">
+          <i class="fas fa-crosshairs faa-pulse animated-hover"></i> <br>
+          <span><b>サービスの目的</b></span>
+        </p>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to("/self-intro") do %>
+        <p class="faa-parent animated-hover">
+          <i class="fas fa-info-circle faa-pulse animated-hover"></i> <br>
+          <span><b>自己紹介</b></span>
+        </p>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to("/guest", method: :post) do %>
+        <p class="faa-parent animated-hover">
+          <i class="far fa-user faa-pulse animated-hover"></i> <br>
+          <span><b>ゲストでログイン</b></span>
+        </p>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to("/signup") do %>
+        <p class="faa-parent animated-hover">
+          <i class="fas fa-user-plus faa-pulse animated-hover"></i> <br>
+          <span><b>新規登録</b></span>
+        </p>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to("/login") do %>
+        <p class="faa-parent animated-hover">
+          <i class="fas fa-sign-in-alt faa-pulse animated-hover"></i> <br>
+          <span><b>ログイン</b></span>
+        </p>
+        <% end %>
+      </li>
+      <% end %>
+    </ul>
+  </header>
+
+  <% if flash[:notice] %>
+  <div class="flash">
+    <%= flash[:notice] %>
+  </div>
+  <% end %>
+
+  <%= yield %>
+</body>
+
+</html>

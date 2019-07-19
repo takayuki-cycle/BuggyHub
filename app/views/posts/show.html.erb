@@ -1,0 +1,90 @@
+<div class="main posts-show">
+  <div class="container">
+    <div class="posts-show-item">
+      <div class="post-user-name">
+        <table>
+          <tr valign="top">
+            <td class="post-top-td">
+              <div class="post-user-name-left">
+                <%= link_to("/users/#{@post.user.id}") do %>
+                <img src="<%= "/user_images/#{@user.image_name}" %>">
+                <% end %>
+              </div>
+              <div class="post-user-name-right">
+                <span>
+                  <a href=<%= "/users/#{@user.id}" %> style="font-weight: normal; color: #4b4b4b;">From:</a>
+                </span>
+                <%= link_to(@user.name, "/users/#{@user.id}") %><br>
+                <span class="post-show-review">
+                  <% @users.each do |user| %>
+                  <% if user.id == @post.review_id %>
+                  <a href=<%= "/users/#{@post.review_id}" %> style="font-weight: normal; color: #4b4b4b;">To:</a>
+                  <%= link_to(user.name, "/users/#{@post.review_id}") %>
+                  <% end %>
+                  <% end %>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td class="post-right-td">
+              <div class="star-post-show">
+                <% case @post.star when 1 %> <img src="/star/star1.png">
+                <% when 2 %> <img src="/star/star2.png">
+                <% when 3 %> <img src="/star/star3.png">
+                <% when 4 %> <img src="/star/star4.png">
+                <% when 5 %> <img src="/star/star5.png">
+                <% end %>
+              </div>
+              <p>
+                <%= @post.content %>
+              </p>
+              <div class="post-time">
+                <%= "レビュー日時: " + @post.created_at.strftime('%Y/%m/%d %H:%M') %>
+              </div>
+              <% if Like.find_by(user_id: @current_user.id, post_id: @post.id) %>
+              <%= link_to("/likes/#{@post.id}/destroy", {method: "post"}) do %>
+              <span class="fa fa-heart like-btn-unlike faa-burst animated-hover"></span>
+              <% end %>
+              <% else %>
+              <%= link_to("/likes/#{@post.id}/create", {method: "post"}) do %>
+              <span class="fa fa-heart like-btn  faa-bounce animated-hover"></span>
+              <% end %>
+              <% end %>
+              <%= @likes_count %>
+              <% if @post.user_id == @current_user.id %>
+              <div class="post-menus">
+                <%= link_to("/posts/#{@post.id}/edit", style: "text-decoration: none;") do %>
+                <span class="post-show-edit faa-parent animated-hover">
+                  <i class="fas fa-edit faa-pulse"></i>&nbsp;編集
+                </span>
+                <% end %>
+                &nbsp;
+                <span class="show-modal-delete faa-parent animated-hover" style="font-size: 14px;">
+                  <i class=" fas fa-trash-alt faa-pulse"></i>&nbsp;削除
+                </span>
+              </div>
+              <% end %>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="overlay"></div> <!-- Double transmission prevention -->
+
+<!-- modal -->
+<div class="confirm-modal-overlay"></div>
+<div class="confirm-modal-delete">
+  <i class="close-modal fa fa-lg fa-times"></i>
+  <h2>本当にレビューを削除しますか？</h2>
+  <%= link_to("/posts/#{@post.id}/destroy", {method: "post"}) do %>
+  <div class="modal-btn-accept faa-parent animated-hover" style="background-color: red;">
+    <i class="fas fa-trash-alt faa-pulse"></i>&nbsp;削除する
+  </div>
+  <% end %>
+  <div class="modal-btn-reject faa-parent animated-hover" style="background-color: hotpink;">
+    <i class="fas fa-ban faa-burst"></i><b>&nbsp;キャンセル</b>
+  </div>
+</div>
