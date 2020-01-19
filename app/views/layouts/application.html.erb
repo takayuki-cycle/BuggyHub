@@ -90,14 +90,16 @@
         </p>
         <% end %>
       </li>
-      <li>
-        <%= link_to("/self-intro") do %>
-        <p class="faa-parent animated-hover">
-          <i class="fas fa-info-circle faa-pulse animated-hover"></i> <br>
-          <span><b>自己紹介</b></span>
-        </p>
-        <% end %>
-      </li>
+      <%#
+        <li>
+          <%= link_to("/self-intro") do %>
+          <p class="faa-parent animated-hover">
+            <i class="fas fa-info-circle faa-pulse animated-hover"></i> <br>
+            <span><b>自己紹介</b></span>
+          </p>
+          <% end %>
+        </li>
+      %>
       <li>
         <%= link_to("/guest", method: :post) do %>
         <p class="faa-parent animated-hover">
