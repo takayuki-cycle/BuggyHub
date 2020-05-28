@@ -30,7 +30,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt'
 gem 'jquery-rails'
 gem 'gon'  # Linking Controller and JavaScript
-gem 'kaminari', '~> 0.17.0' # pagination
+gem 'kaminari', '~> 1.2.1' # pagination
 gem 'rails-i18n' # Japanese localization of error messages
 gem 'rename' # Change app name
 # Use ActiveStorage variant
